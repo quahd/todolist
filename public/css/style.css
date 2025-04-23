@@ -1,0 +1,53 @@
+h1 {
+    text-align: center;
+    color: brown;
+    padding: 3rem;
+    font-size: 3rem;
+}
+.container {
+    text-align: center;
+    display:  flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.todovalue {
+    background-color: #ffe6e6; /* Màu nền hồng nhạt */
+    padding: 10px; /* Khoảng cách bên trong */
+    margin: 5px 0; /* Khoảng cách bên ngoài */
+    display: inline-block; /* Để thẻ nằm trên cùng một dòng với nút Delete */
+    width: 80%; /* Độ rộng của phần nội dung */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+}
+
+.todo-delete {
+    background-color: #ff3333; /* Màu nền đỏ cho nút Delete */
+    color: white; /* Màu chữ trắng */
+    padding: 10px; /* Khoảng cách bên trong */
+    text-decoration: none; /* Bỏ gạch chân của thẻ a */
+    margin-left: 5px; /* Khoảng cách bên trái */
+    margin-top: 5px;
+    display: inline-block; /* Đặt nút nằm cùng dòng với nội dung */
+}
+.todo-container{
+    display: flex;
+    width: 600px;
+}
+input {
+    min-width: 600px;
+    height: 2rem;
+    border-radius: 10px 0 10px 0;
+    border: solid, 2px, orangered;
+    padding-left: 1rem;
+    font-size: 1rem;
+    outline: none;
+}
+::placeholder{
+    color: orangered;
+}
+button {
+    width: 200px;
+    height: 2rem;
+    background-color:orangered ;
+    border: none;
+}
