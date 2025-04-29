@@ -1,3 +1,96 @@
+/* Các thẻ chính */
+.todo-item {
+    display: flex; 
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    justify-content: space-between; /* Phân bố khoảng cách đều giữa các phần tử */
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Các phần tử con trong todo-item */
+.todovalue , .todo_id{
+    flex: 1; /* Cho phép chiếm phần lớn không gian */
+    background-color: #ffe6e6; /* Màu nền hồng nhạt */
+    padding: 10px;
+    margin: 5px 10px 5px 0; /* Khoảng cách bên ngoài */
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.todo-delete, .todo-detail{
+    background-color: #ff3333; /* Màu nền đỏ */
+    color: white; /* Màu chữ trắng */
+    padding: 10px;
+    text-decoration: none;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer; /* Thêm hiệu ứng con trỏ khi hover */
+}
+
+.todo-delete:hover, .todo-detail:hover {
+    background-color: #ff6666; /* Màu nền sáng hơn khi hover */
+}
+
+/* Phần input và nút đăng nhập */
+#inputTodo {
+    min-width: 600px;
+    height: 2rem;
+    border-radius: 10px 0 10px 0;
+    border: 2px solid orangered;
+    padding-left: 1rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+::placeholder {
+    color: orangered;
+}
+
+button {
+    width: 200px;
+    height: 2rem;
+    background-color: orangered;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #cc4d00;
+}
+
+/* Các thẻ container chung */
+.container-login, .container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container-login {
+    border-radius: 10px;
+    border: 2px solid #ff3333;
+    width: 30%;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: brown;
+    padding: 3rem;
+    font-size: 3rem;
+}
+
+#logout #login{
+    margin-top: 10px;
+}
 h1 {
     text-align: center;
     color: brown;
@@ -11,43 +104,22 @@ h1 {
     align-items: center;
     flex-direction: column;
 }
-.todovalue {
-    background-color: #ffe6e6; /* Màu nền hồng nhạt */
-    padding: 10px; /* Khoảng cách bên trong */
-    margin: 5px 0; /* Khoảng cách bên ngoài */
-    display: inline-block; /* Để thẻ nằm trên cùng một dòng với nút Delete */
-    width: 80%; /* Độ rộng của phần nội dung */
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+.container-login{
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: solid, 2px;
+    border-color: #ff3333;
+    width: 30%;
 }
 
-.todo-delete {
-    background-color: #ff3333; /* Màu nền đỏ cho nút Delete */
-    color: white; /* Màu chữ trắng */
-    padding: 10px; /* Khoảng cách bên trong */
-    text-decoration: none; /* Bỏ gạch chân của thẻ a */
-    margin-left: 5px; /* Khoảng cách bên trái */
-    margin-top: 5px;
-    display: inline-block; /* Đặt nút nằm cùng dòng với nội dung */
+.btn1 {
+    margin: 10px ;
 }
-.todo-container{
-    display: flex;
-    width: 600px;
-}
-input {
-    min-width: 600px;
-    height: 2rem;
-    border-radius: 10px 0 10px 0;
-    border: solid, 2px, orangered;
-    padding-left: 1rem;
-    font-size: 1rem;
-    outline: none;
-}
-::placeholder{
-    color: orangered;
-}
-button {
-    width: 200px;
-    height: 2rem;
-    background-color:orangered ;
-    border: none;
+#login {
+    align-items: center;
 }

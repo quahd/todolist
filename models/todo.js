@@ -5,8 +5,17 @@ const todoSchema = new Schema({
     todo: {
         type :String,
         required : true
+    },
+    user: {
+        type: String,
+        required: true
+    },
+    description : {
+        type: Date
     }
 })
+
+
 
 const todo = mongoose.model("todo", todoSchema)
 

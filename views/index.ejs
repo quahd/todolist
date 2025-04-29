@@ -8,34 +8,171 @@
 </head>
 <body>
     <div class="container">
-        <h1> Todo list</h1>
-        <form action="/" method="post" autocomplete="off">
-            <input type="text" placeholder="Add todos..." name="todoValue" required>
-            <button type="submit">Add</button>
-        </form>
-        
-        <% if(data) { %>
-            <% data.forEach(todoValue => { %>
-                <div class="todo-container">
-                    <div class="todovalue"> <%= todoValue.todo %> </div>
-                    <div> 
-                        <a class="todo-delete <%= todoValue.id %> " >Delete</a>
-                    </div>
-                </div>
-          <%  }) %>
-     <%   } %>
+            <h1 id ="h1info" > Todo list </h1>
+            <form action="/add" method="post" autocomplete="off" id="form">
+                <input type="text" placeholder="Add todos..." name="todoValue" id="inputTodo" >
+                <button type="submit">Add</button>
+            </form>
+            <div class="todo-container" id="todo-list">
     </div>
-    <script>
-        const delbtn = document.querySelectorAll(".todo-delete")
-        delbtn.forEach((button, i ) =>{
-            button.addEventListener("click" , ()=>{
-                const endPoint = `/${button.classList[1]}`
-                fetch(endPoint, {
-                    method: "DELETE"
-                } )
+    <button id="login">login</button>
+
+    <button id="logout">logout</button>
+
+    <script type="module">
+        const logoutbtn = document.querySelectorAll("#logout")
+        const loginbtn = document.querySelectorAll("#login")
+        if(localStorage.getItem("authToken")){
+            loginbtn[0].style.display = 'none'
+            logoutbtn[0].style.display = 'flex'
+            logoutbtn[0].addEventListener("click",function() {
+                localStorage.clear()
                 window.location.href = "/"
             })
-        })
+            console.log(localStorage.getItem("authToken"))
+            fetch('/api/getinfo', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }else{
+                    return response.json()
+                }
+            })
+            .then(todos  => { 
+                const title = document.getElementById("h1info")
+                if (title) {
+                    title.textContent  = `To do list of ${todos.user}`;
+                }
+                todos = todos.result
+                const todoList = document.getElementById('todo-list');
+                todoList.innerHTML = ''; 
+                todos.forEach(todo => {
+                    const todoDiv = document.createElement('div');
+                    todoDiv.className = 'todo-item';
+                    todoDiv.innerHTML = `
+                        <div class="todovalue"> ${todo.todo}  </div>
+                    <div> 
+                        <button class="todo-delete" data-id="${todo._id}" >Delete</button>
+                    </div>
+                    <div>
+                        <a class="todo-detail ${todo.user}" data="${todo._id}" >Details</a>
+                    </div>
+                    `;
+                    todoList.appendChild(todoDiv);
+                });
+            })
+            
+            document.getElementById('todo-list').addEventListener('click', (event) => {
+                if (event.target.classList.contains('todo-delete')) {
+                    const todoId = event.target.getAttribute('data-id');
+                    
+                    fetch(`/todos/${todoId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === 'Todo đã được xóa thành công') {
+                            event.target.closest('.todo-item').remove(); 
+                        } else {
+                            console.log('Lỗi khi xóa Todo:', data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+                if (event.target.classList.contains('todo-detail')) {
+                    const todoId = event.target.getAttribute('data'); 
+                    fetch(`/details/${todoId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                        }
+                    })
+
+                }
+            });
+
+            const form = document.getElementById('form');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); 
+                const todovl = document.getElementById("inputTodo").value;
+                console.log(todovl)
+                fetch('/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body : JSON.stringify({name: todovl})
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }else{
+                        return response.json()
+                    }
+                })
+                .then( dt => {
+                    window.location.href = "/"
+                })
+            })
+        } else {
+            logoutbtn[0].style.display = 'none'
+            loginbtn[0].style.display = 'flex'
+            loginbtn[0].addEventListener("click", () => {
+                window.location.href = "/page/login.html"
+            })
+        }     
+        // const detailbtn = document.querySelectorAll("#gettask")
+        // detailbtn.forEach((button, i ) =>{
+        //     button.addEventListener("click" , ()=>{
+        //         fetch('/api/getinfo', {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        //         }
+        //         })
+        //         .then(response => {
+        //             if (!response.ok) {
+        //                 throw new Error(`HTTP error! Status: ${response.status}`);
+        //             }
+        //             return response.json(); 
+        //         })
+        //         .then(data  => {
+        //             console.log(data)
+        //             console.log(data.message)
+        //             window.location.href = "/page/login.html"
+        //         })
+        //         console.log("đã được ấn detail")
+        //         const endPoint = `/details/${button.classList[1]}`
+        //         window.location.href = endPoint
+        //     })
+        // })
+        
+        // const delbtn = document.querySelectorAll(".todo-delete")
+        // delbtn.forEach((button, i ) =>{
+        //     button.addEventListener("click" , ()=>{
+        //         const resultConfirm = confirm("Do you want to delete this task ?")
+        //         if(resultConfirm()){
+        //             const endPoint = `/${button.classList[1]}`
+        //             fetch(endPoint, {
+        //                 method: "DELETE"
+        //             } )
+        //             window.location.href = "/"
+        //         }
+        //     })
+        // })
     </script>
 </body>
 </html>
